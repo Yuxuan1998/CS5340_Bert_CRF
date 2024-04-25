@@ -1,3 +1,5 @@
+from collections import Counter
+
 entity_name = [
     'Organization',
     'Observatory',
@@ -48,3 +50,12 @@ def process_entity_tag(data, ner_tags=ner_tags):
         text.append(doc)
 
     return (processed_tags, ner_tokens, text)
+
+def find_frequent_subword(tokens, n_gram, top):
+    subwords = []
+    for t in tokens:
+        if len(t)>=n_gram:
+            subwords.extend([t[i:i+n_gram] for i in range(len(t)-n_gram+1)])
+    counts = Counter(subwords)
+    top_subwords = counts.most_common(top)
+    return top_subwords
