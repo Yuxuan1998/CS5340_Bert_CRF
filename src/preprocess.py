@@ -15,7 +15,7 @@ tag_to_id = {"O" : len(ner_tags)}
 for i in range(len(ner_tags)):
     tag_to_id[ner_tags[i]] = i
 
-def process_entity_tag(data, ner_tags=ner_tags):
+def process_entity_tag(data, ner_tags=ner_tags, sample=None):
     """
     Process ner tags based on selected entities
  
@@ -34,8 +34,9 @@ def process_entity_tag(data, ner_tags=ner_tags):
     ner_tokens = {}
     for n in ner_tags:
         ner_tokens[n] = []
-
-    for n in range(len(data)):
+    if not sample:
+        sample = len(data)
+    for n in range(sample):
         doc = " ".join(data[n]['tokens'])
         ner_copy = data[n]['ner_tags'].copy()
         for i, t in enumerate(ner_copy):
